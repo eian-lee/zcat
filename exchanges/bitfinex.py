@@ -29,7 +29,6 @@ class Bitfinex(Connector):
         
     def handler(self, message):
         message = message[1]
-        # print(message)
         if type(message) is list:
             if len(message) != 3:
                 self.l2_book = {'name': self.name,
