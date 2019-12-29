@@ -30,7 +30,7 @@ def main(port=5555):
     
     while True:
         message = socket.recv_pyobj()
-        # pprint(message)
+        pprint(message)
         socket.send_json(message)
             
 if __name__ == "__main__":

@@ -1,6 +1,11 @@
 
 from connector import Connector
+from collections import OrderedDict as od
 from defines import UPBIT, ASK, BID
+
+AP, AS = 'ask_price', 'ask_size'
+BP, BS = 'bid_price', 'bid_size'
+
 
 class Upbit(Connector):
     id = UPBIT
@@ -17,10 +22,8 @@ class Upbit(Connector):
         
     def on_data(self, data, data_type, flag):
         data = super().on_data(data, data_type, flag)
-        print(type(data))
-        print(data)
-        # self.zsock.send_pyobj(self.handler(data))
-        self.zsock.send_pyobj(data)
+        self.zsock.send_pyobj(self.handler(data))
+        # self.zsock.send_pyobj(data)
         self.zsock.recv()
         
     def handler(self, message):
@@ -93,8 +96,9 @@ class Upbit(Connector):
         'total_bid_size': 2.52538995,
         'type': 'orderbook'}
         """
-        # book = {'name': self.name, 'asks': {}, 'bids': {}}
-        # message = message['orderbook_units']
-        # for msg in message:
-        #     for k,v in msg.items():
-                
+        book = {}
+        message = message['orderbook_units']
+        book = {'name': self.name,
+                'asks': {msg[AP]: msg[AS] for msg in message for v in msg.items()},
+                'bids': {msg[BP]: msg[BS] for msg in message for v in msg.items()}}
+        return book
