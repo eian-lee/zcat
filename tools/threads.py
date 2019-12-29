@@ -1,7 +1,7 @@
 import threading
 
 
-def starter(*exchanges):
+def threads(*exchanges):
     for exchange in exchanges:
         job = threading.Thread(target=exchange.run)
         job.start()

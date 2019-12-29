@@ -8,3 +8,4 @@ HUOBI = 'Huobi'
 UPBIT = 'Upbit'
 BITFINEX = 'Bitfinex'
 PRICE, SIZE = 0, 1
+ZMQ_PORT = 5555

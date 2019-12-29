@@ -7,6 +7,8 @@ import websocket
 import datetime
 import zmq
 
+from defines import ZMQ_PORT
+
 LOG = logging.getLogger(__name__)
 
 class Connector(object):
@@ -30,7 +32,7 @@ class Connector(object):
         # Websocket, ZMQ Socket 객체생성
         self.ws = None
         self.ctx = ctx or zmq.Context()
-        self.addr = addr or "tcp://localhost:%s" % port
+        self.addr = addr or "tcp://localhost:%s" % ZMQ_PORT
         self.zsock = self.ctx.socket(zmq.REQ)
         self.zsock.connect(self.addr)
 
