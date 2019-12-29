@@ -1,0 +1,10 @@
+BID = 'bids'
+ASK = 'asks'
+BUY = 'buy'
+SELL = 'sell'
+BITSTAMP = 'Bitstamp'
+KRAKEN = 'Kraken'
+HUOBI = 'Huobi'
+UPBIT = 'Upbit'
+BITFINEX = 'Bitfinex'
+PRICE, SIZE = 0, 1
