@@ -31,3 +31,6 @@ def update_asks_bids(ad, bd):
     """
     return ((x[0], x[1]) for k,v in ad.items() for i,x in enumerate(v)), ((x[0], x[1]) for k,v in bd.items() for i,x in enumerate(v))
     
+
+def snapshot_asks_bids(data, price, size):
+    return {x[price]: x[size] for x in data}
