@@ -21,12 +21,12 @@ def main(port=5555):
     
     # 거래소 객체 생성
     # bitstamp = Bitstamp(pairs='BTC/USD', depth=10)
-    # kraken = Kraken(pairs='BTC/USD', depth=10)
-    # bitfinex = Bitfinex(pairs='BTC/USD')
+    kraken = Kraken(pairs='BTC/USD', depth=10)
+    bitfinex = Bitfinex(pairs='BTC/USD')
     upbit = Upbit(pairs='BTC/KRW')
     
     # 스레드 생성
-    threads(upbit)
+    threads(kraken, bitfinex, upbit)
     
     while True:
         message = socket.recv_pyobj()

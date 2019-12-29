@@ -47,11 +47,11 @@ class Kraken(Connector):
                 # [price, size, timestamp, "r"] 로 포맷된 상태
                 # 가변인자를 사용하여 price, size만 가져온다
                 for price, size, *_ in value:
-                    # 업데이트된 가격이 내 오더북에 있는지 멤버쉽 연산자로 체크
+                    # 업데이트된 가격이 내 오더북에 있는 경우
                     if price in self.orderbook[side]:
                         # 수량이 0이 아닌 경우
                         if float(size) != 0:
-                            # 내 오더북의 가격을 갱신
+                            # 내 오더북의 주문을 갱신
                             self.orderbook[side].update({price: size})
                         # 수량이 0인 경우 삭제
                         del self.orderbook[side][price]
@@ -59,7 +59,7 @@ class Kraken(Connector):
                     if float(size) != 0:
                         # 수량이 0이 아닌 경우에만 삽입
                         self.orderbook[side].update({price: size})
-                        # 정렬 후 오더북 깊이 유지
+                        # 정렬 후 딕셔너리 슬라이싱으로 깊이 유지
                         self.orderbook[side] = dict(islice(sorted(self.orderbook[side].items()), self.depth))
                         
         """ 2. ASK & BID 동시에 수신시 응답예제
