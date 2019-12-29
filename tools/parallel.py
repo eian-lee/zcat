@@ -4,17 +4,16 @@ def calculate(base, quote):
     return ((float(i) / float(v)) for i,v in zip(base[BID], quote[ASK])), ((float(i) / float(v)) for i,v in zip(quote[BID], base[ASK]))
 
 def update_asks_bids(ad, bd):
-    """ 크라켄은 수신된 가격리스트의 길이 제한이 없음
-        웹소켓으로 가격정보가 수신되고
-        그 다음 가격정보가 수신될 때 까지 시간을 측정하면,
-        변동이 적당한 경우 10만분의 1초부터
-        변동이 심하면 100만분의 1초에 육박함
+    """ 크라켄은 가격리스트가 여러개 수신됨
+        가격리스트가 수신되고 나서
+        다음 가격리스트가 수신될 때까지 시간은,
+        10만분의 1초 ~ 100만분의 1초(변동에 따라)
         
         XXX: 가격 리스트를 순회하다 다음 가격리스트가 수신될 수 있으므로
-        크라켄만 이렇게 가독성을 버리고,
-        Parallel Assignment를 통해
+        크라켄은 가독성을 포기하고 Parallel Assignment,
         튜플컴프리헨션, items, enumerate를 중첩사용
-        ZeroMQ 이외 비동기 라이브러리로 처리가 불가능한걸로 판단됨
+        
+        ZeroMQ 외 비동기모듈은 처리가 불가능한걸로 판단됨
         C로 마이그레이션 또는 PyPy 사용권장
         
     >>> [
