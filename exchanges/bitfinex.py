@@ -15,8 +15,8 @@ class Bitfinex(Connector):
         self.payload = {"event": "subscribe",
                         "channel": "book",
                         "symbol": "tBTCUSD",
-                        "prec": "P0",
-                        "freq": "F0",
+                        "prec": "P1",
+                        "freq": "F1",
                         "len": 25}
         # 오더북 설정
         self._book = {}

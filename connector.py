@@ -1,3 +1,13 @@
+"""
+암호화폐 거래소 WebSocket API 인터페이스 통합을 위한 클래스
+
+ZeroMQ를 이용하여 queue를 건드리거나 만들지도 않고
+스레드간 비동기 통신이 가능하다
+
+Author: Joonseok Lee <alchemist5590@gmail.com>
+"""
+
+
 
 import uuid
 import hashlib
@@ -31,7 +41,7 @@ class Connector(object):
         
         # Websocket, ZMQ Socket 객체생성
         self.ws = None
-        self.ctx = ctx or zmq.Context()
+        self.ctx = ctx or zmq.Context(io_threads=2)
         self.addr = addr or "tcp://localhost:%s" % ZMQ_PORT
         self.zsock = self.ctx.socket(zmq.REQ)
         self.zsock.connect(self.addr)
@@ -47,8 +57,7 @@ class Connector(object):
         return json.loads(data)
     
     def on_error(self, error):
-        """[1900-01-01  00:00:0000] ExchangeName Error...
-        """
+        """[1900-01-01  00:00:00] ExchangeName Error.. """
         LOG.debug(f"[{self.nonce()}] {self.name} {error}")
     
     def on_close(self):

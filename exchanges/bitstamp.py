@@ -10,15 +10,15 @@ class Bitstamp(Connector):
 
     def __init__(self, pairs, depth=None, **kwargs):
         super().__init__(pairs, depth, **kwargs)
-        self.l2_book = {}
-        self.format_pairs = '{}{}'.format(self.base.lower(), self.quote.lower())
+        self.format_pairs = f"{self.base.lower()}{self.quote.lower()}"
         self.url = 'wss://ws.bitstamp.net'
         self.payload = {"event": "bts:subscribe",
                         "data": {"channel": f"order_book_{self.format_pairs}"}}
+        self._book = {}
         
     def on_data(self, data, data_type, flag):
         data = super().on_data(data, data_type, flag)
-        self.zsock.send_json(self.book(data))
+        self.zsock.send_pyobj(self.book(data))
         self.zsock.recv()
     
     def book(self, message):
@@ -33,10 +33,10 @@ class Bitstamp(Connector):
         if "bts:subscription_succeeded" in message:
             pass
         
-        # # 비트스탬프는 모든 메시지를 message['data']로 접근
+        # 비트스탬프는 모든 메시지를 message['data']로 접근
         message = message['data']
         
-        self.l2_book = {'name': self.name,
-                        ASK: od({x[0]: x[1] for x in message[ASK][:self.depth]}),
-                        BID: od({x[0]: x[1] for x in message[BID][:self.depth]})}
-        return self.l2_book
+        self._book = {'name': self.name,
+                      'asks': {x[0]: x[1] for x in message[ASK][:self.depth]},
+                      'bids': {x[0]: x[1] for x in message[BID][:self.depth]}}
+        return self._book
