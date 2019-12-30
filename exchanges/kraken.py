@@ -21,8 +21,8 @@ class Kraken(Connector):
         
     def on_data(self, data, data_type, flag):
         data = super().on_data(data, data_type, flag)
-        self.zsock.send_pyobj(self.handler(data))
-        self.zsock.recv_pyobj()
+        self.zsock.send_json(self.handler(data))
+        self.zsock.recv()
     
     def handler(self, message: list):
         message = message[1:-2]

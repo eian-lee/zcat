@@ -1,7 +1,7 @@
 from defines import ASK, BID, PRICE, SIZE
 from timer import timer
 
-@timer
+# @timer
 def calculate(base, quote):
     return [(float(i) / float(v)) for i,v in zip(base[BID], quote[ASK])], [(float(i) / float(v)) for i,v in zip(quote[BID], base[ASK])]
 

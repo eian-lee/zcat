@@ -15,15 +15,15 @@ class Bitfinex(Connector):
         self.payload = {"event": "subscribe",
                         "channel": "book",
                         "symbol": "tBTCUSD",
-                        "prec": "P1",
-                        "freq": "F1",
+                        "prec": "P0",
+                        "freq": "F0",
                         "len": 25}
         # 오더북 설정
         self._book = {}
         
     def on_data(self, data, data_type, flag):
         data = super().on_data(data, data_type, flag)
-        self.zsock.send_pyobj(self.handler(data))
+        self.zsock.send_json(self.handler(data))
         self.zsock.recv()
         
     def handler(self, message):
